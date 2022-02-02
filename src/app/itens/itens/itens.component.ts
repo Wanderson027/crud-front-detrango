@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
+import { ItensService } from './../services/itens.service';
 import { Iten } from './../model/iten';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -9,13 +12,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ItensComponent implements OnInit {
 
-  itens: Iten [] = [
-    { _id: '1 ', tipo_iten: '1 - Documentos', desc_iten: 'CNH'}
-  ];
-  displayedColumns = ['tipo_iten', 'desc_iten'];
+  itens: Observable<Iten[]>;
+  displayedColumns = ['tipoItem', 'descTipoItem'];
 
-  constructor() {
+  //itensService: ItensService;
 
+  constructor(private itensService: ItensService) {
+   // this.itensService = new ItensService();
+    this.itens = this.itensService.list();
   }
 
   ngOnInit(): void {

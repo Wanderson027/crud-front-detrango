@@ -1,0 +1,17 @@
+[
+  {
+      "id": 1,
+      "tipoItem": "CNH",
+      "descTipoItem": "1 - Documentos"
+  },
+  {
+      "id": 2,
+      "tipoItem": "Telefone",
+      "descTipoItem": "2 - Outros"
+  },
+  {
+    "id": 3,
+    "tipoItem": "Renovação",
+    "descTipoItem": "3 - Já existente"
+}
+]
