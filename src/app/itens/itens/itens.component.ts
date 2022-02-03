@@ -1,8 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { ItensService } from './../services/itens.service';
-import { Iten } from './../model/iten';
+import { ErrorDialogComponent } from './../../shared/components/error-dialog/error-dialog.component';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+import { Iten } from './../model/iten';
+import { ItensService } from './../services/itens.service';
 
 
 @Component({
@@ -12,14 +15,29 @@ import { Observable } from 'rxjs';
 })
 export class ItensComponent implements OnInit {
 
-  itens: Observable<Iten[]>;
-  displayedColumns = ['tipoItem', 'descTipoItem'];
+  itens$: Observable<Iten[]>;
+  displayedColumns = ['tipoItem', 'descTipoItem', 'actions'];
 
   //itensService: ItensService;
 
-  constructor(private itensService: ItensService) {
+  constructor(
+    private itensService: ItensService,
+    public dialog: MatDialog
+    ) {
    // this.itensService = new ItensService();
-    this.itens = this.itensService.list();
+    this.itens$ = this.itensService.list()
+    .pipe(
+      catchError(error => {
+        this.onError('Error ao carregar Items!!')
+        return of([])
+      })
+    );
+  }
+
+  onError(errorMsg: string) {
+    this.dialog.open(ErrorDialogComponent, {
+      data: errorMsg
+    });
   }
 
   ngOnInit(): void {

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Iten } from './../model/iten';
-import { first, tap } from 'rxjs/operators'
+import { delay, first, tap } from 'rxjs/operators'
 
 
 @Injectable({
@@ -10,7 +10,7 @@ import { first, tap } from 'rxjs/operators'
 })
 export class ItensService {
 
-  private readonly API = '/assets/iten.json';
+  private readonly API = 'api/itens';
 
   constructor(private httpCliente: HttpClient) { }
 
@@ -18,7 +18,17 @@ export class ItensService {
    return this.httpCliente.get<Iten[]>(this.API)
    .pipe(
     first(),
+    delay(1000),
     tap(itens => console.log(itens))
    );
   }
+
+  update() {
+    return this.httpCliente.get(this.API)
+    .pipe(
+     first(),
+     delay(1000),
+     tap(itens => console.log(itens))
+    );
+   }
 }
